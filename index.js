@@ -50,7 +50,7 @@ function nextLesson(progress) {
 }
 
 function bye(progress) {
-  console.log();
+  ui.clear(); // יוצאים באמת — בלי להשאיר את הקורס בהיסטוריית הגלילה
   console.log('  ' + c.ok('👋 להתראות' + (progress && progress.name ? ', ' + progress.name : '') + '! ההתקדמות נשמרה.'));
   console.log('  ' + c.dim('😂 אחת אחרונה לדרך: ' + randomJoke()));
   console.log();
