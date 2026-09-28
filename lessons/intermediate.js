@@ -4,7 +4,7 @@
 'use strict';
 
 const os = require('os');
-const { ran, has, need, where, countFiles, firstNumber } = require('./_helpers');
+const { ran, has, need, where, countFiles, firstNumber, hasHome } = require('./_helpers');
 const detect = require('../lib/detect');
 
 module.exports = [
@@ -377,6 +377,8 @@ module.exports = [
     level: 'בינוני',
     emoji: '🔐',
     title: 'הרשאות: מי מורשה מה?',
+    unixOnly: true,
+    windowsNote: 'ב-Windows ההרשאות בנויות אחרת (לחצן ימני ← מאפיינים ← אבטחה), ו-chmod כמעט לא עושה כלום. את rwx ו-chmod כדאי להכיר — כל שרת בעולם הוא לינוקס.',
     teach: `## מה זה -rwxr-xr-- ? 🤯
 כשמריצים \`ls -l\`, העמודה הראשונה נראית כמו קוד סודי. בוא נפצח אותו:
 \`-rwxr-xr--\`
@@ -655,7 +657,7 @@ ${no.length ? '\n## מה עוד לא מותקן\n' + noLines + '\n> לא חוב�
         prompt: 'איפה הבית שלך? הצג את המשתנה **HOME**.',
         hint: '`echo $HOME`',
         solution: 'echo $HOME',
-        check: (x) => ran(x, /^echo\b.*\$\{?HOME/) && x.stdout.trim() === os.homedir(),
+        check: (x) => ran(x, /^echo\b.*\$\{?HOME/) && x.samePath(x.stdout.trim(), os.homedir()),
       },
       {
         prompt: 'מה שם המשתמש שלך — אבל הפעם דרך המשתנה **USER**.',
@@ -667,7 +669,7 @@ ${no.length ? '\n## מה עוד לא מותקן\n' + noLines + '\n> לא חוב�
         prompt: 'שלב משתנים בתוך משפט: `echo "אני $USER והבית שלי ב-$HOME"`',
         hint: 'המשתנים עובדים בתוך "מרכאות כפולות".',
         solution: 'echo "אני $USER והבית שלי ב-$HOME"',
-        check: (x) => ran(x, /^echo\b/) && has(x, os.userInfo().username, os.homedir()),
+        check: (x) => ran(x, /^echo\b/) && has(x, os.userInfo().username) && hasHome(x),
         success: 'בתוך "מרכאות" המשתנים מתחלפים. בתוך \'גרשיים\' — לא. (נסה ותראה!)',
       },
       {
@@ -770,7 +772,7 @@ ${no.length ? '\n## מה עוד לא מותקן\n' + noLines + '\n> לא חוב�
       },
     ],
     drills: [
-      { prompt: 'הדפס את תיקיית הבית שלך בעזרת משתנה', hint: '$HOME', solution: 'echo $HOME', check: (x) => has(x, os.homedir()) },
+      { prompt: 'הדפס את תיקיית הבית שלך בעזרת משתנה', hint: '$HOME', solution: 'echo $HOME', check: (x) => hasHome(x) },
       { prompt: "צור alias בשם la שמריץ ls -a", hint: "alias la='ls -a'", solution: "alias la='ls -a'", check: (x) => !!x.aliases.la && /ls/.test(x.aliases.la) },
       { prompt: 'צור משתנה COLOR עם הצבע האהוב עליך', hint: 'COLOR=כחול', solution: 'COLOR=כחול', check: (x) => !!x.env.COLOR },
       { prompt: 'הדפס את ה-shell שלך (משתנה SHELL)', hint: '$SHELL', solution: 'echo $SHELL', check: (x) => /\$\{?SHELL/.test(x.cmd) && /sh/.test(x.stdout) },

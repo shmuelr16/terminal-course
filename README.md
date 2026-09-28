@@ -4,19 +4,37 @@
 הוא מסתכל על המחשב שלך (קריאה בלבד) כדי להתאים את ההדרכה — ומזהה אילו כלים מותקנים אצלך (git, node, python, brew...).
 **הכל נשמר מקומית** ב-`~/.terminal-course/` — בלי שרת, בלי ענן, בלי תלויות חיצוניות.
 
-## הרצה
+## התקנה והרצה
+
+צריך רק **Node.js 16 ומעלה** ([nodejs.org](https://nodejs.org)). אין תלויות נוספות.
+
+### 🍎 מק · 🐧 לינוקס
 
 ```bash
-cd ~/code/terminal-course && node index.js
+npx terminal-course
 ```
 
-או כפקודה גלובלית:
+או התקנה קבועה, ואז פשוט `terminal-course` מכל מקום:
 
 ```bash
-cd ~/code/terminal-course && npm link
+npm install -g terminal-course
 ```
 
-ואז פשוט `terminal-course` מכל מקום. צריך Node.js 16 ומעלה.
+### 🪟 Windows
+
+הקורס מלמד את הטרמינל של מק ולינוקס (bash), אז ב-Windows צריך אחד משניים:
+
+1. **Git for Windows** (הכי פשוט) — מתקינים מ-[git-scm.com](https://git-scm.com/download/win) או `winget install Git.Git`,
+   ואז מריצים `npx terminal-course` מכל טרמינל (PowerShell, Windows Terminal או Git Bash). הקורס מוצא את Git Bash לבד.
+2. **WSL** — לינוקס אמיתי בתוך Windows: `wsl --install`, ואז בתוך Ubuntu מתקינים Node.js ומריצים משם.
+
+ב-Windows שני שיעורים (הרשאות ותהליכים) מוצגים כהסבר בלבד, כי הם עובדים שם אחרת.
+
+### מהקוד (למפתחים)
+
+```bash
+git clone <הכתובת של הריפו> && cd terminal-course && node index.js
+```
 
 ## מה יש בפנים
 
@@ -44,6 +62,7 @@ cd ~/code/terminal-course && npm link
 
 ```
 index.js            תפריט ראשי ונקודת כניסה
+lib/shell.js        איזה bash מריץ את הפקודות (כולל Git Bash ב-Windows)
 lib/engine.js       ה-shell המדומה: הרצה, בטיחות, בדיקת משימות, אימון
 lib/screens.js      היכרות, כלים מותקנים, דף עזר, סטטיסטיקות, תעודה
 lib/sandbox.js      קבצי האימון של ארגז החול

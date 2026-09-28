@@ -5,6 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { toPosixPath } = require('../lib/shell');
 
 // הפקודה מתאימה לתבנית והצליחה (קוד יציאה 0)
 function ran(x, re) {
@@ -14,6 +15,20 @@ function ran(x, re) {
 // הפלט מכיל את כל המחרוזות
 function has(x, ...strs) {
   return strs.every((s) => x.stdout.includes(s));
+}
+
+// האם הקובץ קיבל הרשאת הרצה. ב-Windows אין ביט הרצה אמיתי (NTFS),
+// אז שם מסתפקים בזה ש-chmod רץ בהצלחה.
+function isExec(x, p) {
+  if (x.platform === 'win32') return /\bchmod\b/.test(x.cmd) && x.code === 0;
+  return (x.rootMode(p) & 0o100) !== 0;
+}
+
+// הפלט מכיל את תיקיית הבית (גם בכתיב של Git Bash: /c/Users/...)
+function hasHome(x) {
+  const out = x.platform === 'win32' ? x.stdout.toLowerCase() : x.stdout;
+  const forms = [x.home, toPosixPath(x.home)].map((f) => (x.platform === 'win32' ? f.toLowerCase() : f));
+  return forms.some((f) => out.includes(f));
 }
 
 // תנאי + הודעה כשהוא לא מתקיים
@@ -43,4 +58,4 @@ function firstNumber(x) {
   return m ? Number(m[0]) : null;
 }
 
-module.exports = { ran, has, need, where, countFiles, firstNumber };
+module.exports = { ran, has, need, where, countFiles, firstNumber, isExec, hasHome };

@@ -1,18 +1,42 @@
 {
   "name": "terminal-course",
   "version": "1.0.0",
-  "description": "קורס טרמינל אינטראקטיבי שרץ בתוך הטרמינל — מתאים את עצמו למחשב שלך, שומר הכל מקומית",
+  "description": "קורס טרמינל אינטראקטיבי בעברית שרץ בתוך הטרמינל — מתאים את עצמו למחשב שלך ושומר הכל מקומית",
   "main": "index.js",
   "bin": {
     "terminal-course": "index.js"
   },
+  "files": [
+    "index.js",
+    "lib/",
+    "lessons/",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "start": "node index.js",
     "test": "node test/solutions.test.js"
   },
+  "keywords": [
+    "terminal",
+    "bash",
+    "shell",
+    "course",
+    "tutorial",
+    "learn",
+    "cli",
+    "hebrew",
+    "עברית",
+    "טרמינל"
+  ],
   "engines": {
     "node": ">=16"
   },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
   "license": "MIT",
   "private": true
 }

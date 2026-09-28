@@ -7,7 +7,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const { execSync } = require('child_process');
-const { ran, has, need, where, countFiles, firstNumber } = require('./_helpers');
+const { ran, has, need, where, countFiles, firstNumber, isExec } = require('./_helpers');
 const detect = require('../lib/detect');
 
 // קריאה בלבד: שם המשתמש שמוגדר ב-git של המשתמש (אם יש)
@@ -27,6 +27,8 @@ function sshPublicKeys() {
     return [];
   }
 }
+
+const PING = process.platform === 'win32' ? 'ping -n 2' : 'ping -c 2';
 
 // ארגומנט אחרי שם הסקריפט (bash greet.sh דני → דני)
 function scriptArg(x) {
@@ -165,6 +167,8 @@ module.exports = [
     emoji: '⚙️',
     title: 'תהליכים: מה רץ עכשיו במחשב?',
     mode: 'explore',
+    unixOnly: true,
+    windowsNote: 'ב-Windows רואים תהליכים עם Ctrl+Shift+Esc (מנהל המשימות), ובטרמינל: tasklist, וסוגרים עם taskkill /PID מספר.',
     teach: `## כל תוכנה שרצה = תהליך (process) ⚙️
 לכל תהליך יש מספר זהות: **PID**. הדפדפן, המוזיקה, והקורס הזה עצמו — כולם תהליכים.
 
@@ -375,7 +379,7 @@ module.exports = [
         prompt: 'הפוך את greet.sh לתוכנה אמיתית — תן לו הרשאת הרצה.',
         hint: 'chmod +x greet.sh',
         solution: 'chmod +x greet.sh',
-        check: (x) => need((x.rootMode('greet.sh') & 0o100) !== 0, 'צריך chmod +x greet.sh'),
+        check: (x) => need(isExec(x, 'greet.sh'), 'צריך chmod +x greet.sh'),
       },
       {
         prompt: 'הרץ אותו ישירות: `./greet.sh` עם שם של חבר',
@@ -642,11 +646,12 @@ ${ssh.installed ? '✅ ssh מותקן אצלך.' : '❌ ssh לא נמצא.'}
     },
     tasks: [
       {
-        prompt: 'יש אינטרנט? שלח **2** פינגים לשרת של גוגל: `ping -c 2 8.8.8.8`',
-        hint: 'ping -c 2 8.8.8.8',
-        solution: 'ping -c 2 8.8.8.8',
+        // ב-Windows ה-ping של המערכת משתמש ב--n במקום -c
+        prompt: () => `יש אינטרנט? שלח **2** פינגים לשרת של גוגל: \`${PING} 8.8.8.8\``,
+        hint: () => `${PING} 8.8.8.8`,
+        solution: () => `${PING} 8.8.8.8`,
         check: (x) => {
-          if (!/^ping\b.*-c\s*\d/.test(x.cmd)) return { ok: false, msg: 'צריך ping עם -c ומספר (אחרת הוא ממשיך לנצח!)' };
+          if (!/^ping\b.*-[cn]\s*\d/.test(x.cmd)) return { ok: false, msg: `צריך ping עם ${PING.split(' ')[1]} ומספר (אחרת הוא עלול להמשיך לנצח!)` };
           return { ok: true, msg: x.code === 0 ? 'time=XX ms = כמה זמן לקח להלוך ולחזור. 🏓' : 'לא הגיעה תשובה — אולי אין אינטרנט כרגע, או שהרשת חוסמת ping. זה בסדר, הבנת את הרעיון.' };
         },
       },
@@ -806,7 +811,7 @@ ${ssh.installed ? '✅ ssh מותקן אצלך.' : '❌ ssh לא נמצא.'}
         prompt: 'צור סקריפט **count.sh** שמדפיס כמה פריטים יש בתיקייה, תן לו הרשאת הרצה **והרץ אותו** — הכל בשורה אחת עם &&.',
         hint: ["echo ... > count.sh && chmod ... && ./count.sh", "`echo 'ls | wc -l' > count.sh && chmod +x count.sh && ./count.sh`"],
         solution: "echo 'ls | wc -l' > count.sh && chmod +x count.sh && ./count.sh",
-        check: (x) => need(x.rootExists('count.sh') && (x.rootMode('count.sh') & 0o100) !== 0 && /^\s*\d+\s*$/m.test(x.stdout), 'צריך שהקובץ count.sh ייווצר, יקבל x, וירוץ וידפיס מספר.'),
+        check: (x) => need(x.rootExists('count.sh') && isExec(x, 'count.sh') && /^\s*\d+\s*$/m.test(x.stdout), 'צריך שהקובץ count.sh ייווצר, יקבל x, וירוץ וידפיס מספר.'),
       },
       {
         prompt: 'ניקיון: מחק את כל קבצי ה-.tmp בכל ארגז החול, ו**רק אם הצליח** הדפס "נוקה!"',

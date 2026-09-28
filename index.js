@@ -14,6 +14,7 @@ const ui = require('./lib/ui');
 const { c, C } = ui;
 const { randomJoke } = require('./lib/jokes');
 const lessons = require('./lessons');
+const { SHELL_PATH, IS_WINDOWS, windowsSetupHelp } = require('./lib/shell');
 
 const { ask } = engine;
 
@@ -38,6 +39,16 @@ if (args.includes('--list')) {
   process.exit(0);
 }
 
+// ב-Windows צריך Git Bash (או להריץ מתוך WSL)
+if (!SHELL_PATH) {
+  console.log();
+  console.log(c.title('  🖥️  קורס הטרמינל'));
+  console.log();
+  console.log(windowsSetupHelp().split('\n').map((l) => '  ' + l).join('\n'));
+  console.log();
+  process.exit(1);
+}
+
 const major = Number(process.versions.node.split('.')[0]);
 if (major < 16) {
   console.error(`הקורס צריך Node.js 16 ומעלה (יש לך ${process.versions.node}). עדכן מ-nodejs.org או: brew install node`);
@@ -45,8 +56,14 @@ if (major < 16) {
 }
 
 // ---- עזרים ----
+// השיעור הבא שעוד לא נגמר — מדלגים על שיעורים שחסר להם כלי (למשל git לא מותקן),
+// אחרת "המשך" היה נתקע עליהם לנצח
 function nextLesson(progress) {
-  return lessons.find((l) => !progress.completed.includes(l.id)) || null;
+  return lessons.find((l) => {
+    if (progress.completed.includes(l.id)) return false;
+    const b = engine.lessonBlocker(l);
+    return !b || b.kind !== 'requires';
+  }) || null;
 }
 
 function bye(progress) {
@@ -148,7 +165,10 @@ async function lessonPicker(deps) {
     for (const l of lessons.filter((x) => x.level === level)) {
       const done = progress.completed.includes(l.id);
       const mark = done ? c.ok('✅') : l === next ? '👉' : c.dim('○ ');
-      const extra = l.mode === 'explore' ? c.dim(' 🔭 במחשב האמיתי') : l.requires ? c.dim(` (צריך ${l.requires})`) : '';
+      const extra =
+        l.unixOnly && IS_WINDOWS ? c.dim(' 🪟 רק הסבר ב-Windows') :
+        l.mode === 'explore' ? c.dim(' 🔭 במחשב האמיתי') :
+        l.requires ? c.dim(` (צריך ${l.requires})`) : '';
       console.log(`   ${mark} ${c.accent(String(l.num).padStart(2) + ')')} ${l.emoji} ${done ? c.dim(l.title) : l.title}${extra}`);
     }
   }
@@ -168,7 +188,8 @@ async function lessonPicker(deps) {
 // ---- אימון מוגבר ----
 async function drills(deps) {
   const { rl, progress } = deps;
-  let source = lessons.filter((l) => progress.completed.includes(l.id) && l.drills && l.drills.length);
+  const canDrill = (l) => l.drills && l.drills.length && !engine.lessonBlocker(l);
+  let source = lessons.filter((l) => progress.completed.includes(l.id) && canDrill(l));
   if (!source.length) {
     ui.clear();
     console.log(ui.box([
@@ -178,7 +199,7 @@ async function drills(deps) {
     ], { color: C.brightYellow }));
     console.log();
     await ask(rl, c.dim('  [Enter להמשך] '));
-    source = lessons.filter((l) => l.drills && l.drills.length).slice(0, 3);
+    source = lessons.filter(canDrill).slice(0, 3);
   }
   const pool = source.flatMap((l) =>
     l.drills.map((d) => ({ ...d, from: `${l.emoji} ${l.title}`, teachText: engine.resolve(l.teach, deps) }))

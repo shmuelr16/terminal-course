@@ -13,7 +13,6 @@ process.env.TERMINAL_COURSE_HOME = fs.mkdtempSync(path.join(os.tmpdir(), 'termin
 
 const engine = require('../lib/engine');
 const sandbox = require('../lib/sandbox');
-const detect = require('../lib/detect');
 const lessons = require('../lessons');
 
 const only = process.argv[2]; // אפשר להריץ שיעור בודד: node test/solutions.test.js grep
@@ -52,8 +51,9 @@ for (const lesson of lessons) {
   ids.add(lesson.id);
   if (only && lesson.id !== only) continue;
 
-  if (lesson.requires && !detect.isInstalled(lesson.requires)) {
-    console.log(`⏭️  ${lesson.id} — ${lesson.requires} לא מותקן, מדלג`);
+  const blocker = engine.lessonBlocker(lesson);
+  if (blocker) {
+    console.log(`⏭️  ${lesson.id} — ${blocker.kind === 'unix' ? 'לא רלוונטי ב-Windows' : lesson.requires + ' לא מותקן'}, מדלג`);
     skipped++;
     continue;
   }

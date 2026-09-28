@@ -52,7 +52,7 @@ module.exports = [
         prompt: 'עכשיו תשאל את המחשב **מי אתה**. (באנגלית: who am i — אבל הכל צמוד)',
         hint: 'whoami',
         solution: 'whoami',
-        check: (x) => ran(x, /^whoami\b/) && x.stdout.trim() === USER,
+        check: (x) => ran(x, /^whoami\b/) && x.stdout.trim().split(/[\\/]/).pop().toLowerCase() === USER.toLowerCase(),
         success: `נעים מאוד, ${USER}! 👋 זה שם המשתמש שלך במחשב.`,
       },
       {
@@ -407,7 +407,7 @@ ${mac ? '- /Applications — כל האפליקציות שלך 📱' : '- /usr/bi
         prompt: 'איפה אתה עכשיו? (שים לב: זה כבר המחשב האמיתי!)',
         hint: 'pwd',
         solution: 'pwd',
-        check: (x) => ran(x, /^pwd\b/) && x.stdout.trim() === x.home,
+        check: (x) => ran(x, /^pwd\b/) && x.samePath(x.stdout.trim(), x.home),
         success: 'אתה בבית! זה הנתיב המלא של תיקיית הבית שלך.',
       },
       {
