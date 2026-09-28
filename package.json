@@ -37,6 +37,15 @@
     "linux",
     "win32"
   ],
+  "author": "shmuelr16",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shmuelr16/terminal-course.git"
+  },
+  "homepage": "https://github.com/shmuelr16/terminal-course#readme",
+  "bugs": {
+    "url": "https://github.com/shmuelr16/terminal-course/issues"
+  },
   "license": "MIT",
   "private": true
 }
