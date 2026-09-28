@@ -15,6 +15,15 @@ const { c, C } = ui;
 const { randomJoke } = require('./lib/jokes');
 const lessons = require('./lessons');
 const { SHELL_PATH, IS_WINDOWS, windowsSetupHelp } = require('./lib/shell');
+const rtl = require('./lib/rtl');
+const util = require('util');
+
+// בטרמינלים שלא מסדרים עברית לבד (Termux/אנדרואיד) — מסדרים כל שורה שיוצאת דרך console.log.
+// ההקלדה (readline) לא עוברת דרך כאן, כדי לא לפגוע בעריכת השורה.
+if (rtl.ENABLED) {
+  const rawLog = console.log.bind(console);
+  console.log = (...a) => rawLog(rtl.reorder(util.format(...a)));
+}
 
 const { ask } = engine;
 

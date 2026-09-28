@@ -13,7 +13,8 @@
 
 - `index.js` — תפריט ראשי, בחירת שיעור, אימון, הגדרות
 - `lib/engine.js` — ה-shell המדומה: `executeCommand` (הרחבת `!!`/alias, פקודות מובנות cd/export/alias/history, בדיקות בטיחות, הרצה ב-bash), `buildCtx` + `evaluate` לבדיקת משימות, `runLesson`/`runTask`/`runDrills`/`runFreePlay`
-- `lib/shell.js` — איזה bash מריץ פקודות (`/bin/bash`, ב-Windows: Git Bash), עזרי נתיבים (`samePath`, `toPosixPath`)
+- `lib/shell.js` — איזה bash מריץ פקודות (`/bin/bash`, ב-Windows: Git Bash, Termux), עזרי נתיבים (`samePath`, `toPosixPath`)
+- `lib/rtl.js` — סידור עברית לטרמינלים בלי bidi (Termux/אנדרואיד). מופעל אוטומטית שם (או עם `TERMINAL_COURSE_RTL=1/0`). `console.log` עטוף ב-`index.js`, וגם פלט פקודות/פרומפטים עוברים דרך `rtl.reorder`
 - `lib/screens.js` — היכרות, "מה מותקן אצלי", דף עזר, סטטיסטיקות, תעודה
 - `lib/detect.js` — זיהוי כלים מותקנים + הוראות התקנה לפי מערכת הפעלה
 - `lib/sandbox.js` — קבצי האימון (`SEED`). הבדיקות בשיעורים תלויות בתוכן המדויק שלהם (למשל 4 שורות ERROR ב-`logs/app.log`)
@@ -35,6 +36,7 @@
 - **עברית ב-sort/uniq במק**: ב-`en_US.UTF-8` אין סדר מיון לעברית — `uniq` חושב שכל השורות זהות. המנוע מגדיר `LC_COLLATE=C` (ב-`buildEnv`).
 - **מרכאות ממקלדת עברית**: `״`/`׳` מומרים ל-`"`/`'` (`normalizeQuotes`), חוץ מגרשיים באמצע מילה (צה״ל).
 - **מסגרות**: רק פס שמאלי, בלי גבול ימני — גבול ימני נשבר עם עברית (bidi), אימוג'י ושינוי גודל חלון.
+- **עברית ב-Termux**: הטרמינל של Termux לא מסדר עברית (מציג הפוך). `lib/rtl.js` מסדר מראש. במק זה כבוי (המק מסדר לבד), אז שינויים ב-rtl לא נראים במק — בודקים עם `TERMINAL_COURSE_RTL=1`.
 - **ניקוי מסך**: `ui.clear` שולח גם `\x1b[3J`, אחרת הטרמינל של המק שומר כל מסך בהיסטוריית הגלילה.
 - `ui.paint` הוא פונקציה של `ui`, לא של `c`.
 - תוכנות מסך-מלא (vim, nano, less, top) חסומות עם הסבר — `execSync` לא יכול להריץ אותן.
