@@ -1,0 +1,10 @@
+# קבצי מערכת של macOS
+.DS_Store
+
+# תלויות ולוגים
+node_modules/
+*.log
+
+# נתוני משתמש (ההתקדמות נשמרת ב-~/.terminal-course ולא כאן — ליתר ביטחון)
+.terminal-course/
+progress.json

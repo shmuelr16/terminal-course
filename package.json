@@ -1,0 +1,18 @@
+{
+  "name": "terminal-course",
+  "version": "1.0.0",
+  "description": "קורס טרמינל אינטראקטיבי שרץ בתוך הטרמינל — מתאים את עצמו למחשב שלך, שומר הכל מקומית",
+  "main": "index.js",
+  "bin": {
+    "terminal-course": "index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test/solutions.test.js"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "license": "MIT",
+  "private": true
+}
