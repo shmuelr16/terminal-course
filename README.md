@@ -4,55 +4,33 @@
 הוא מסתכל על המחשב שלך (קריאה בלבד) כדי להתאים את ההדרכה — ומזהה אילו כלים מותקנים אצלך (git, node, python, brew...).
 **הכל נשמר מקומית** ב-`~/.terminal-course/` — בלי שרת, בלי ענן, בלי תלויות חיצוניות.
 
-## 🚀 התקנה — בחר את המכשיר שלך
+## 🚀 התקנה
 
-צריך **Node.js** (זה מה שמריץ את הקורס). מתקינים פעם אחת, ואז הקורס עצמו — פקודה אחת.
-
-### 🍎 מק
-
-1. מתקינים Node.js מ-[nodejs.org](https://nodejs.org) (הבא-הבא-סיום)
-2. פותחים **Terminal** ומדביקים:
+מתקינים **פעם אחת**, ואז מקלידים `terminal-course` מכל מקום — לתמיד. צריך רק **Node.js**.
 
 ```bash
-npx terminal-course
+git clone https://github.com/shmuelr16/terminal-course.git
+cd terminal-course
+npm install -g .
 ```
 
-### 🐧 לינוקס
+עכשיו, מכל תיקייה:
 
 ```bash
-sudo apt install nodejs npm   # אם עוד אין Node
-npx terminal-course
+terminal-course
 ```
 
-### 🪟 Windows
+זהו. ההתקדמות נשמרת אוטומטית, אז אפשר לצאת ולחזור מתי שרוצים.
 
-1. מתקינים **Git for Windows** מ-[git-scm.com](https://git-scm.com/download/win) (הבא-הבא-סיום)
-2. מתקינים **Node.js** מ-[nodejs.org](https://nodejs.org)
-3. פותחים את התוכנה **Git Bash** ומדביקים:
+### קודם צריך Node.js — לפי המכשיר
 
-```bash
-npx terminal-course
-```
+- **🍎 מק** — מתקינים מ-[nodejs.org](https://nodejs.org) (הבא-הבא-סיום)
+- **🐧 לינוקס** — `sudo apt install nodejs npm git`
+- **🪟 Windows** — מתקינים [Git for Windows](https://git-scm.com/download/win) + [Node.js](https://nodejs.org), ואז פותחים את **Git Bash** ומריצים שם את הפקודות.
+  הקורס מלמד פקודות של מק/לינוקס, ו-Git Bash נותן אותן ב-Windows (הקורס מוצא אותו לבד). שני שיעורים — הרשאות ותהליכים — מוצגים ב-Windows כהסבר בלבד.
+- **🤖 אנדרואיד** — מתקינים את האפליקציה **Termux** (מ-[F-Droid](https://f-droid.org/packages/com.termux/)), ואז `pkg install nodejs git`.
 
-> למה Git Bash? כי הקורס מלמד פקודות של מק/לינוקס, ו-Git Bash נותן אותן ב-Windows. הקורס מוצא אותו לבד.
-> (חלופה למתקדמים: WSL — `wsl --install`.) שני שיעורים, הרשאות ותהליכים, מוצגים ב-Windows כהסבר בלבד.
-
-### 🤖 אנדרואיד (טלפון/טאבלט)
-
-1. מתקינים את האפליקציה **Termux** (מ-[F-Droid](https://f-droid.org/packages/com.termux/), לא מ-Google Play)
-2. פותחים אותה ומדביקים:
-
-```bash
-pkg install nodejs
-npx terminal-course
-```
-
-### 🔁 הרצה חוזרת
-
-אחרי הפעם הראשונה, פשוט מקלידים `npx terminal-course` שוב — ההתקדמות נשמרה.
-מעדיפים פקודה קצרה בלי `npx`? מתקינים פעם אחת: `npm install -g terminal-course`, ואז פשוט `terminal-course`.
-
-### 🛠️ למפתחים (ישר מהקוד)
+### רק להריץ פעם אחת, בלי להתקין קבוע?
 
 ```bash
 git clone https://github.com/shmuelr16/terminal-course.git
