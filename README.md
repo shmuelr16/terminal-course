@@ -6,7 +6,23 @@
 
 ## 🚀 התקנה
 
-מתקינים **פעם אחת**, ואז מקלידים `terminal-course` מכל מקום — לתמיד. צריך רק **Node.js**.
+### שלב 1 — שתי תוכנות שצריך פעם אחת
+
+הקורס הוא תוכנה, וכדי שהמחשב ידע להריץ אותה צריך שתי תוכנות חינמיות מותקנות (בדיוק כמו שכדי לפתוח קובץ Word צריך שיהיה Word מותקן). מתקינים אותן פעם אחת ושוכחים:
+
+- **Node.js** — ה"מנוע" שמריץ את הקורס (הקורס כתוב ב-JavaScript, ו-Node.js מריץ אותה).
+- **Git** — מוריד את הקוד מהאינטרנט.
+
+איך משיגים אותן — לפי המכשיר שלך:
+
+| מכשיר | מה עושים |
+|---|---|
+| 🍎 **מק** | מתקינים **Node.js** מ-[nodejs.org](https://nodejs.org) (הבא-הבא-סיום). Git כבר מגיע עם המק. |
+| 🐧 **לינוקס** | `sudo apt install nodejs npm git` |
+| 🪟 **Windows** | מתקינים [**Git for Windows**](https://git-scm.com/download/win) (נותן גם git וגם חלון בשם **Git Bash**) + [**Node.js**](https://nodejs.org). את שלב 2 מריצים בתוך **Git Bash**. |
+| 🤖 **אנדרואיד** | מתקינים את האפליקציה [**Termux**](https://f-droid.org/packages/com.termux/), ובתוכה: `pkg install nodejs git` |
+
+### שלב 2 — מתקינים את הקורס (פעם אחת)
 
 ```bash
 git clone https://github.com/shmuelr16/terminal-course.git
@@ -14,23 +30,19 @@ cd terminal-course
 npm install -g .
 ```
 
-עכשיו, מכל תיקייה:
+### שלב 3 — מריצים, מכל מקום
 
 ```bash
 terminal-course
 ```
 
-זהו. ההתקדמות נשמרת אוטומטית, אז אפשר לצאת ולחזור מתי שרוצים.
+זהו! ההתקדמות נשמרת אוטומטית, אז אפשר לצאת ולחזור מתי שרוצים — פשוט `terminal-course` שוב.
 
-### קודם צריך Node.js — לפי המכשיר
+> **🪟 הערה ל-Windows:** את כל הפקודות מריצים בתוך **Git Bash**, כי הקורס מלמד פקודות של מק/לינוקס ו-Git Bash נותן אותן (הקורס מוצא אותו לבד). שני שיעורים — הרשאות ותהליכים — מוצגים ב-Windows כהסבר בלבד.
 
-- **🍎 מק** — מתקינים מ-[nodejs.org](https://nodejs.org) (הבא-הבא-סיום)
-- **🐧 לינוקס** — `sudo apt install nodejs npm git`
-- **🪟 Windows** — מתקינים [Git for Windows](https://git-scm.com/download/win) + [Node.js](https://nodejs.org), ואז פותחים את **Git Bash** ומריצים שם את הפקודות.
-  הקורס מלמד פקודות של מק/לינוקס, ו-Git Bash נותן אותן ב-Windows (הקורס מוצא אותו לבד). שני שיעורים — הרשאות ותהליכים — מוצגים ב-Windows כהסבר בלבד.
-- **🤖 אנדרואיד** — מתקינים את האפליקציה **Termux** (מ-[F-Droid](https://f-droid.org/packages/com.termux/)), ואז `pkg install nodejs git`.
+### רק להציץ פעם אחת, בלי להתקין קבוע?
 
-### רק להריץ פעם אחת, בלי להתקין קבוע?
+אחרי שלב 1, במקום שלב 2:
 
 ```bash
 git clone https://github.com/shmuelr16/terminal-course.git
