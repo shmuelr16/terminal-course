@@ -4,36 +4,59 @@
 הוא מסתכל על המחשב שלך (קריאה בלבד) כדי להתאים את ההדרכה — ומזהה אילו כלים מותקנים אצלך (git, node, python, brew...).
 **הכל נשמר מקומית** ב-`~/.terminal-course/` — בלי שרת, בלי ענן, בלי תלויות חיצוניות.
 
-## התקנה והרצה
+## 🚀 התקנה — בחר את המכשיר שלך
 
-צריך רק **Node.js 16 ומעלה** ([nodejs.org](https://nodejs.org)). אין תלויות נוספות.
+צריך **Node.js** (זה מה שמריץ את הקורס). מתקינים פעם אחת, ואז הקורס עצמו — פקודה אחת.
 
-### 🍎 מק · 🐧 לינוקס
+### 🍎 מק
+
+1. מתקינים Node.js מ-[nodejs.org](https://nodejs.org) (הבא-הבא-סיום)
+2. פותחים **Terminal** ומדביקים:
 
 ```bash
 npx terminal-course
 ```
 
-או התקנה קבועה, ואז פשוט `terminal-course` מכל מקום:
+### 🐧 לינוקס
 
 ```bash
-npm install -g terminal-course
+sudo apt install nodejs npm   # אם עוד אין Node
+npx terminal-course
 ```
 
 ### 🪟 Windows
 
-הקורס מלמד את הטרמינל של מק ולינוקס (bash), אז ב-Windows צריך אחד משניים:
-
-1. **Git for Windows** (הכי פשוט) — מתקינים מ-[git-scm.com](https://git-scm.com/download/win) או `winget install Git.Git`,
-   ואז מריצים `npx terminal-course` מכל טרמינל (PowerShell, Windows Terminal או Git Bash). הקורס מוצא את Git Bash לבד.
-2. **WSL** — לינוקס אמיתי בתוך Windows: `wsl --install`, ואז בתוך Ubuntu מתקינים Node.js ומריצים משם.
-
-ב-Windows שני שיעורים (הרשאות ותהליכים) מוצגים כהסבר בלבד, כי הם עובדים שם אחרת.
-
-### מהקוד (למפתחים)
+1. מתקינים **Git for Windows** מ-[git-scm.com](https://git-scm.com/download/win) (הבא-הבא-סיום)
+2. מתקינים **Node.js** מ-[nodejs.org](https://nodejs.org)
+3. פותחים את התוכנה **Git Bash** ומדביקים:
 
 ```bash
-git clone <הכתובת של הריפו> && cd terminal-course && node index.js
+npx terminal-course
+```
+
+> למה Git Bash? כי הקורס מלמד פקודות של מק/לינוקס, ו-Git Bash נותן אותן ב-Windows. הקורס מוצא אותו לבד.
+> (חלופה למתקדמים: WSL — `wsl --install`.) שני שיעורים, הרשאות ותהליכים, מוצגים ב-Windows כהסבר בלבד.
+
+### 🤖 אנדרואיד (טלפון/טאבלט)
+
+1. מתקינים את האפליקציה **Termux** (מ-[F-Droid](https://f-droid.org/packages/com.termux/), לא מ-Google Play)
+2. פותחים אותה ומדביקים:
+
+```bash
+pkg install nodejs
+npx terminal-course
+```
+
+### 🔁 הרצה חוזרת
+
+אחרי הפעם הראשונה, פשוט מקלידים `npx terminal-course` שוב — ההתקדמות נשמרה.
+מעדיפים פקודה קצרה בלי `npx`? מתקינים פעם אחת: `npm install -g terminal-course`, ואז פשוט `terminal-course`.
+
+### 🛠️ למפתחים (ישר מהקוד)
+
+```bash
+git clone https://github.com/shmuelr16/terminal-course.git
+cd terminal-course && node index.js
 ```
 
 ## מה יש בפנים

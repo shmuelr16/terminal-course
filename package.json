@@ -32,11 +32,6 @@
   "engines": {
     "node": ">=16"
   },
-  "os": [
-    "darwin",
-    "linux",
-    "win32"
-  ],
   "author": "shmuelr16",
   "repository": {
     "type": "git",

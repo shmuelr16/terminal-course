@@ -44,7 +44,18 @@ if (!SHELL_PATH) {
   console.log();
   console.log(c.title('  🖥️  קורס הטרמינל'));
   console.log();
-  console.log(windowsSetupHelp().split('\n').map((l) => '  ' + l).join('\n'));
+  const help = IS_WINDOWS
+    ? windowsSetupHelp()
+    : [
+        'לא מצאתי את bash במחשב הזה — הקורס מריץ פקודות דרכו.',
+        '',
+        'אנדרואיד (Termux):  pkg install bash',
+        'לינוקס:              sudo apt install bash',
+        '',
+        'אם bash מותקן במקום לא רגיל, אפשר להצביע עליו:',
+        '   export TERMINAL_COURSE_BASH=/path/to/bash',
+      ].join('\n');
+  console.log(help.split('\n').map((l) => '  ' + l).join('\n'));
   console.log();
   process.exit(1);
 }
