@@ -279,19 +279,27 @@ async function settings(deps) {
 
 // ---- התחלה ----
 async function main() {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: !!process.stdin.isTTY,
-    historySize: 200,
-  });
-  engine.attachQueue(rl);
+  // במצב RTL אינטראקטיבי (Termux) הקורס מנהל את ההקלדה בעצמו (עורך שורה שמצייר עברית נכון),
+  // אז לא יוצרים readline רגיל — רק "בול עץ" שמחזיק את היסטוריית החצים.
+  const rtlTty = rtl.ENABLED && !!process.stdin.isTTY;
+  let rl;
+  if (rtlTty) {
+    rl = { history: [] };
+  } else {
+    rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+      terminal: !!process.stdin.isTTY,
+      historySize: 200,
+    });
+    engine.attachQueue(rl);
+  }
 
   const progress = storage.touchStreak(storage.load());
   storage.save(progress);
   sandbox.ensure();
 
-  rl.on('SIGINT', () => bye(progress));
+  if (!rtlTty) rl.on('SIGINT', () => bye(progress));
 
   const deps = { rl, progress, save: storage.save };
 
