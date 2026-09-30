@@ -95,13 +95,23 @@ function bye(progress) {
 }
 
 // ---- תפריט ראשי ----
+// הערה קצרה למטה לרצף — מסבירה תמיד למה המספר הזה כזה
+function streakHint(streak) {
+  if (!streak.last) return '';
+  if (streak.gap === 0) return c.dim(`   היום שיחקת · רצף של ${streak.days} ימים`);
+  if (streak.gap === 1) return c.dim(`   שיחקת לאחרונה אתמול · רצף של ${streak.days} ימים`);
+  return c.dim(`   האחרון ששיחקת לפני ${streak.gap} ימים — צריך להיכנס לקורס כדי להתחיל רצף חדש`);
+}
+
 function renderHeader(progress) {
   const rank = screens.rankFor(progress.xp);
+  const streak = storage.computeStreak(progress.playedDates);
   ui.clear();
   console.log(ui.banner('🖥️  קורס הטרמינל', C.bgMagenta));
   console.log();
   console.log(ui.box([
     `${c.title('היי ' + (progress.name || '') + '!')}  ${rank.title}  ·  ⭐ ${c.ok(progress.xp + ' XP')}  ·  🔥 ${progress.streakDays} ימים ברצף`,
+    streakHint(streak),
     '',
     '📚 ' + ui.progressBar(progress.completed.length, lessons.length, 24),
   ], { color: C.brightCyan }));
