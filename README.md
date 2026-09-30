@@ -54,6 +54,24 @@ git clone https://github.com/shmuelr16/terminal-course.git
 cd terminal-course && node index.js
 ```
 
+## 🔄 עדכון הקורס
+
+מדי פעם יוצאים שיעורים חדשים ותיקונים. כדי לקבל אותם:
+
+```bash
+cd terminal-course      # להיכנס לתיקייה שבה התקנת את הקורס
+git pull               # להוריד את הגרסה החדשה
+npm install -g .       # להתקין אותה מחדש (כי הפקודה מופעלת מכל מקום במחשב)
+```
+
+כל שלוש הפקודות ביחד — אם עצרת אחרי `git pull` בלבד, יש סיכוי שתמשיך להריץ את הגרסה הישנה.
+
+> **💡 אפשר לדלג על `npm install -g .`** אם התקנת כשמקשרים (`npm link`) — אז הפקודה `terminal-course` מחוברת ישירות לתיקייה, ומספיק `git pull`.
+>
+> **שום דבר מההתקדמות שלך לא נמחק בעדכון** — הקבצים שלך חיים ב־`~/.terminal-course/` ולא נוגעים בהם.
+>
+> **אם יצאה לך שגיאה אחרי עדכון** — נסה `npm uninstall -g terminal-course`, ואז `npm install -g .` שוב. או קרא את פרטי השגיאה ב-[Issues](https://github.com/shmuelr16/terminal-course/issues).
+
 ## מה יש בפנים
 
 **20 שיעורים בשלוש רמות** — כל אחד עם הסבר קליל, משימות מעשיות, חידונים ותרגילי אימון:
