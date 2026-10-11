@@ -247,6 +247,9 @@ async function settings(deps) {
     console.log('  ' + c.accent('1)') + ' ♻️  איפוס ארגז החול (מחזיר את קבצי האימון למצב ההתחלתי)');
     console.log('  ' + c.accent('2)') + ` ✏️  שינוי שם (כרגע: ${progress.name || '—'})`);
     console.log('  ' + c.accent('3)') + ' 🗑️  איפוס כל ההתקדמות');
+    const rtlSaved = rtl.savedSetting();
+    const rtlNow = rtlSaved === null ? 'אוטומטי' : rtlSaved ? 'מופעל' : 'כבוי';
+    console.log('  ' + c.accent('4)') + ` 🔄 עברית הפוכה? סידור כיוון לטלפון/Termux (כרגע: ${rtlNow})`);
     console.log('  ' + c.accent('0)') + ' ↩️  חזרה');
     console.log();
     console.log('  ' + c.dim(`ההתקדמות נשמרת ב: ${storage.PROGRESS_FILE}`));
@@ -262,6 +265,19 @@ async function settings(deps) {
         progress.name = name.slice(0, 30);
         save(progress);
         console.log('  ' + c.ok(`✅ נעים מאוד, ${progress.name}!`));
+        await ask(rl, c.dim('  [Enter] '));
+      }
+    } else if (a === '4') {
+      console.log();
+      console.log('  ' + c.dim('אם העברית יוצאת הפוכה (למשל "סרוק" במקום "קורס") — מחליפים כאן.'));
+      console.log('  ' + c.accent('1)') + ' מופעל — הקורס מסדר את העברית בעצמו (לרוב צריך ב-Termux)');
+      console.log('  ' + c.accent('2)') + ' כבוי — הטרמינל מסדר לבד (מק, לינוקס, Windows)');
+      console.log('  ' + c.accent('3)') + ' אוטומטי — הקורס מחליט לבד');
+      const b = (await ask(rl, c.accent('  בחירה: '))).trim();
+      const val = { 1: true, 2: false, 3: null }[b];
+      if (val !== undefined) {
+        rtl.saveSetting(val);
+        console.log('  ' + c.ok('✅ נשמר! צא מהקורס (0) והפעל אותו מחדש כדי שזה ייכנס לתוקף.'));
         await ask(rl, c.dim('  [Enter] '));
       }
     } else if (a === '3') {
