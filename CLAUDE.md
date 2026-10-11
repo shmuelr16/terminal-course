@@ -14,7 +14,7 @@
 - `index.js` — תפריט ראשי, בחירת שיעור, אימון, הגדרות
 - `lib/engine.js` — ה-shell המדומה: `executeCommand` (הרחבת `!!`/alias, פקודות מובנות cd/export/alias/history, בדיקות בטיחות, הרצה ב-bash), `buildCtx` + `evaluate` לבדיקת משימות, `runLesson`/`runTask`/`runDrills`/`runFreePlay`
 - `lib/shell.js` — איזה bash מריץ פקודות (`/bin/bash`, ב-Windows: Git Bash, Termux), עזרי נתיבים (`samePath`, `toPosixPath`)
-- `lib/rtl.js` — סידור עברית לטרמינלים בלי bidi (Termux/אנדרואיד). מופעל אוטומטית שם (או עם `TERMINAL_COURSE_RTL=1/0`). `console.log` עטוף ב-`index.js`, וגם פלט פקודות/פרומפטים עוברים דרך `rtl.reorder`
+- `lib/rtl.js` — סידור עברית לטרמינלים בלי bidi (Termux/אנדרואיד). מופעל אוטומטית שם (זיהוי רחב: env של Termux, `PREFIX`, `/system`, `/proc/version`), או ידנית מהגדרות ← 4 (נשמר ב-`settings.json`) / `TERMINAL_COURSE_RTL=1/0`. `console.log` עטוף ב-`index.js`, וגם פלט פקודות/פרומפטים עוברים דרך `rtl.reorder`
 - `lib/screens.js` — היכרות, "מה מותקן אצלי", דף עזר, סטטיסטיקות, תעודה
 - `lib/detect.js` — זיהוי כלים מותקנים + הוראות התקנה לפי מערכת הפעלה
 - `lib/sandbox.js` — קבצי האימון (`SEED`). הבדיקות בשיעורים תלויות בתוכן המדויק שלהם (למשל 4 שורות ERROR ב-`logs/app.log`)
