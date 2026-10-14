@@ -250,6 +250,9 @@ async function settings(deps) {
     const rtlSaved = rtl.savedSetting();
     const rtlNow = rtlSaved === null ? 'אוטומטי' : rtlSaved ? 'מופעל' : 'כבוי';
     console.log('  ' + c.accent('4)') + ` 🔄 עברית הפוכה? סידור כיוון לטלפון/Termux (כרגע: ${rtlNow})`);
+    if (process.env.TERMINAL_COURSE_RTL) {
+      console.log('     ' + c.err(`⚠️  TERMINAL_COURSE_RTL=${process.env.TERMINAL_COURSE_RTL} מוגדר אצלך וגובר על ההגדרה הזאת (בדוק ב-~/.bashrc)`));
+    }
     console.log('  ' + c.accent('0)') + ' ↩️  חזרה');
     console.log();
     console.log('  ' + c.dim(`ההתקדמות נשמרת ב: ${storage.PROGRESS_FILE}`));
